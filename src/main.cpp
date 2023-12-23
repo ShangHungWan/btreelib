@@ -23,7 +23,7 @@ public:
 
     void insert_non_full(const T &key)
     {
-        int index = find_key(key);
+        size_t index = find_key(key);
 
         if (is_leaf)
         {
@@ -63,8 +63,7 @@ public:
         }
     }
 
-private:
-    int find_key(const T &key)
+    size_t find_key(const T &key)
     {
         int index = keys.size() - 1;
         while (index >= 0 && keys[index] > key)
@@ -95,6 +94,28 @@ public:
         root->insert_non_full(key);
     }
 
+    bool exist(const T &key)
+    {
+        BTreeNode<T> *node = root;
+        while (node != nullptr)
+        {
+            size_t index = node->find_key(key);
+            if (index < node->keys.size() && node->keys[index] == key)
+            {
+                return true;
+            }
+            else if (node->is_leaf)
+            {
+                return false;
+            }
+            else
+            {
+                node = node->children[index + 1];
+            }
+        }
+        return false;
+    }
+
 private:
     void split_root()
     {
@@ -111,5 +132,6 @@ PYBIND11_MODULE(btree, m)
 
     pybind11::class_<BTree<double>>(m, "BTree")
         .def(pybind11::init<>())
-        .def("insert", &BTree<double>::insert);
+        .def("insert", &BTree<double>::insert)
+        .def("exist", &BTree<double>::exist);
 }
