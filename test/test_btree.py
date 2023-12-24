@@ -1,5 +1,5 @@
 import unittest
-import btree
+import btreelib as btree
 
 
 class BTreeTest(unittest.TestCase):
