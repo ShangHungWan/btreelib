@@ -345,7 +345,7 @@ private:
     }
 };
 
-PYBIND11_MODULE(btree, m)
+PYBIND11_MODULE(btreelib, m)
 {
     m.doc() = "A B-Tree library which implemented with C++ to achieve the performance. Furthermore, it wrapped with Python to achieve useability at the same time.";
 
