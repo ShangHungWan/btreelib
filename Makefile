@@ -5,8 +5,10 @@ FLAGS = -Wall -Wextra -Werror -std=c++11 -O3 -fPIC -shared $$(python3 -m pybind1
 main: src/main.cpp
 	$(COMPILER) $(FLAGS) src/main.cpp
 
-.PHONY: clean test
+.PHONY: clean test performance
 clean:
 	rm -f $(TARGET)
 test:
 	make && python3 -m pytest
+performance:
+	make && mv $(TARGET) tests/ && cd tests && python3 performance.py && rm $(TARGET)
