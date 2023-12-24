@@ -79,12 +79,12 @@ This library will provide C++ interfaces:
 
 And wrap it as Python APIs:
 
-- BTree BTree()
-- None insert(key)
-- bool exist(key)
-- None remove(key)
-- int size()
-- int height()
+- BTree() -> BTree
+- insert(key) -> None
+- exist(key) -> bool
+- remove(key) -> None
+- size() -> int
+- height() -> int
 
 You can also find more examples in `tests/` folder.
 
