@@ -154,6 +154,18 @@ public:
         }
     }
 
+    size_t size() const
+    {
+        size_t count = keys.size();
+
+        for (const BTreeNode<T> *child : children)
+        {
+            count += child->size();
+        }
+
+        return count;
+    }
+
 private:
     T get_predecessor(int index)
     {
@@ -297,6 +309,32 @@ public:
         }
     }
 
+    size_t size() const
+    {
+        if (!root)
+        {
+            return 0;
+        }
+        return root->size();
+    }
+
+    size_t height() const
+    {
+        if (!root)
+        {
+            return 0;
+        }
+
+        size_t height = 1;
+        BTreeNode<T> *node = root;
+        while (!node->is_leaf)
+        {
+            node = node->children[0];
+            ++height;
+        }
+        return height;
+    }
+
 private:
     void split_root()
     {
@@ -315,5 +353,7 @@ PYBIND11_MODULE(btree, m)
         .def(pybind11::init<>())
         .def("insert", &BTree<double>::insert)
         .def("exist", &BTree<double>::exist)
-        .def("remove", &BTree<double>::remove);
+        .def("remove", &BTree<double>::remove)
+        .def("size", &BTree<double>::size)
+        .def("height", &BTree<double>::height);
 }
